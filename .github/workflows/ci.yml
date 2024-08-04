@@ -1,0 +1,28 @@
+name: Pipeline for testing GitHub action
+
+on:
+  workflow_dispatch:
+    inputs:
+      readme:
+        description: 'Path to the README file'
+        required: true
+        default: 'README.md'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Update README with custom script
+      uses: ./update_readme 
+      with:
+        readme: ${{ github.event.inputs.readme }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+

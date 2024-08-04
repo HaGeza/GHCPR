@@ -1,0 +1,45 @@
+name: Update README with Commit Proportions
+inputs:
+  readme:
+    description: 'Path to the README file'
+    required: true
+    default: 'README.md'
+  token:
+    description: 'GitHub token'
+    required: true
+
+permissions:
+  contents: write
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.11
+
+    - name: Fetch commit authors
+      shell: bash
+      run: git log --pretty=format:"%an" > commit_authors.txt
+
+    - name: Update README with custom script
+      shell: bash
+      run: python generate_chart.py commit_authors.txt ${{ inputs.readme }}
+
+    - name: Commit and push changes
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+        AUTHOR_NAME: GHCPR_BOT
+        AUTHOR_EMAIL: ghcpr@users.noreply.github.com
+      run: |
+        git config user.name "${{ env.AUTHOR_NAME }}"
+        git config user.email "${{ env.AUTHOR_EMAIL }}"
+        git add ${{ inputs.readme }}
+        git commit --author="${{ env.AUTHOR_NAME }} <${{ env.AUTHOR_EMAIL }}>" -m "GHCPR: Update README with commit proportions"
+        git push
+    
