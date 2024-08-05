@@ -24,12 +24,15 @@ if __name__ == "__main__":
         data = json.load(f)
 
     for commit in data:
-        if "author" not in commit or "login" not in commit["author"]:
+        if "author" not in commit or commit["author"] is None:
             continue
-        author = commit["author"]["login"]
+        if "login" not in commit["author"]:
+            continue
 
-        if author == GHCPR_BOT_NAME:
+        author = commit["author"]["login"]
+        if author == GHCPR_BOT_NAME or author is None:
             continue
+
         author_commits[author] = author_commits.get(author, 0) + 1
 
     total_count = sum(author_commits.values())
