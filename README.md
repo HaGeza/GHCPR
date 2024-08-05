@@ -11,5 +11,6 @@ The main use-case for this tool are repos with log-normal-like commit-proportion
 
 ```mermaid
 pie
-	"pelokbal": 1000
+	"HaGeza": 937
+	"ghcpr": 62
 ```
