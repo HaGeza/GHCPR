@@ -34,23 +34,15 @@ runs:
       uses: actions/setup-python@v5
       with:
         python-version: 3.11
-
-    - name: Fetch commit authors
+        
+    - name: Update README with custom script
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
         REPO: ${{ github.repository }}
       run: |
-        gh api -H "Accept: application/vnd.github+json" \
-               -H "X-GitHub-Api-Version: 2022-11-28" \
-               /repos/$REPO/commits > action_repo/commit_authors.json
-              
-        
-    - name: Update README with custom script
-      shell: bash
-      run: |
         cd action_repo
-        python generate_chart.py commit_authors.json ../repo/${{ inputs.readme }}
+        python generate_chart.py $REPO ../repo/${{ inputs.readme }}
         cd ..
 
     - name: Commit and push changes
