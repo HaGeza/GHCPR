@@ -1,4 +1,5 @@
 name: Update README with Commit Proportions
+description: 'Update the readme with a pie chart at the end, showing the proportion of commits by each author of the repository.'
 inputs:
   readme:
     description: 'Path to the README file'
@@ -7,6 +8,9 @@ inputs:
   token:
     description: 'GitHub token'
     required: true
+branding:
+  icon: 'pie-chart'
+  color: 'green'
 
 permissions:
   contents: write
