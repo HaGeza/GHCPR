@@ -47,6 +47,6 @@ runs:
         git config user.name "${{ env.AUTHOR_NAME }}"
         git config user.email "${{ env.AUTHOR_EMAIL }}"
         git add ${{ inputs.readme }}
-        git commit --author="${{ env.AUTHOR_NAME }} <${{ env.AUTHOR_EMAIL }}>" -m "GHCPR: Update README with commit proportions"
+        git commit --allow-empty --author="${{ env.AUTHOR_NAME }} <${{ env.AUTHOR_EMAIL }}>" -m "GHCPR: Update README with commit proportions"
         git push
     
