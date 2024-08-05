@@ -31,7 +31,8 @@ runs:
         gh api -H "Accept: application/vnd.github+json" \
                -H "X-GitHub-Api-Version: 2022-11-28" \
                /repos/$REPO/commits > commit_authors.json
-
+        echo /repos/$REPO/commits
+        
     - name: Update README with custom script
       shell: bash
       run: python generate_chart.py commit_authors.json ${{ inputs.readme }}
